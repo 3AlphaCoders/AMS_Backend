@@ -6,6 +6,10 @@ const app = express();
 
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
+const helmet = require("helmet");
+const xss = require("xss-clean");
+const mongoSanitize = require("express-mongo-sanitize");
 
 // file upload and cloudinary
 const fileUpload = require("express-fileupload");
@@ -31,8 +35,14 @@ const applicationRouter = require("./routes/applicationRoutes");
 const userRouter = require("./routes/userRoutes");
 const noticeRouter = require("./routes/noticeRoutes");
 
+app.set('trust proxy', 1);
+
 app.use(cookieParser(process.env.JWT_SECRET));
 app.use(morgan("tiny"));
+app.use(cors());
+app.use(helmet());
+app.use(xss());
+app.use(mongoSanitize());
 
 app.use(express.json());
 app.use(fileUpload());
