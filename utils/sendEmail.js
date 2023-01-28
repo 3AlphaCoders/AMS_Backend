@@ -7,7 +7,7 @@ const sendVerificationEmail = async (
 ) => {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-  const origin = "http://localhost:3000";
+  const origin = "https://www.docapproval.tech";
 
   const url = `${origin}/verifyEmail?verificationToken=${verificationToken}&email=${userEmail}`;
 
