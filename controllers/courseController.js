@@ -319,37 +319,38 @@ const getDeptTeachers = async (req, res) => {
     );
   }
 
-  const page = parseInt(req.query?.page) || 1;
-  const limit = 10;
-  const teachersCount = await UserModel.countDocuments({
-    deptId,
-    $or: [{ role: "mentor" }, { role: "teacher" }],
-  });
+  // const page = parseInt(req.query?.page) || 1;
+  // const limit = 10;
+  // const teachersCount = await UserModel.countDocuments({
+  //   deptId,
+  //   $or: [{ role: "mentor" }, { role: "teacher" }],
+  // });
 
-  const totalPages = Math.ceil(teachersCount / limit);
-  const skip = (page - 1) * limit;
+  // const totalPages = Math.ceil(teachersCount / limit);
+  // const skip = (page - 1) * limit;
 
-  if (page > totalPages) {
-    throw new CustomAPIError.NotFoundError(
-      `Exceeded the maximum page number: ${totalPages}`
-    );
-  }
+  // if (page > totalPages) {
+  //   throw new CustomAPIError.NotFoundError(
+  //     `Exceeded the maximum page number: ${totalPages}`
+  //   );
+  // }
 
   const teachers = await UserModel.find({
     deptId,
+    courseId,
     $or: [{ role: "mentor" }, { role: "teacher" }],
   })
     .sort("name")
-    .select("name email")
-    .skip(skip)
-    .limit(limit);
+    .select("name email");
+  // .skip(skip)
+  // .limit(limit);
 
   res.status(StatusCodes.OK).json({
     success: true,
     message: `Teachers found for department with id: ${deptId}`,
     teachers,
-    totalPages,
-    page,
+    // totalPages,
+    // page,
   });
 };
 
@@ -412,33 +413,33 @@ const getClassStudents = async (req, res) => {
     );
   }
 
-  const page = parseInt(req.query?.page) || 1;
-  const limit = 10;
-  const studentsCount = await UserModel.countDocuments({
-    classId,
-    role: "student",
-  });
-  const totalPages = Math.ceil(studentsCount / limit);
-  const skip = (page - 1) * limit;
+  // const page = parseInt(req.query?.page) || 1;
+  // const limit = 10;
+  // const studentsCount = await UserModel.countDocuments({
+  //   classId,
+  //   role: "student",
+  // });
+  // const totalPages = Math.ceil(studentsCount / limit);
+  // const skip = (page - 1) * limit;
 
-  if (page > totalPages) {
-    throw new CustomAPIError.NotFoundError(
-      `Exceeded the maximum page number: ${totalPages}`
-    );
-  }
+  // if (page > totalPages) {
+  //   throw new CustomAPIError.NotFoundError(
+  //     `Exceeded the maximum page number: ${totalPages}`
+  //   );
+  // }
 
   const students = await UserModel.find({ role: "student", classId })
     .sort("name")
-    .select("name email")
-    .skip(skip)
-    .limit(limit);
+    .select("name email");
+  // .skip(skip)
+  // .limit(limit);
 
   res.status(StatusCodes.OK).json({
     success: true,
     message: `Students found for class with id: ${classId}`,
     students,
-    totalPages,
-    page,
+    // totalPages,
+    // page,
   });
 };
 

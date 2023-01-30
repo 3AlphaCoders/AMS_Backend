@@ -35,7 +35,7 @@ const applicationRouter = require("./routes/applicationRoutes");
 const userRouter = require("./routes/userRoutes");
 const noticeRouter = require("./routes/noticeRoutes");
 
-app.set('trust proxy', 1);
+app.set("trust proxy", 1);
 
 app.use(cookieParser(process.env.JWT_SECRET));
 app.use(morgan("tiny"));
